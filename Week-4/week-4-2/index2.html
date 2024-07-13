@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<head>
+<body>
+    <div>
+        <input type="text" id="title" placeholder="title"></input><br></br>
+        <input type="text" id="description" placeholder="description"></input><br></br>
+        <button onclick="addTodo()">Add todo</button><br></br>
+        
+        <div id="container"></div>
+            
+    </div>
+    <script>
+        todos = [
+            {title:"coding", description:" complete the project ", id:1 },
+            {title:"sleep", description:" get some sleep ", id:2 },
+        ]
+        let globalId =todos.length+1;
+
+        function markAsDone(id) {
+            const makeDone = document.getElementById(id);
+            makeDone.children[2].innerHTML = "Done!"
+        }
+
+        function createChild(title, description , id){
+            const child = document.createElement('div')
+            
+            const childTitle = document.createElement('div')
+            childTitle.innerHTML = title;
+
+            const childDescription = document.createElement('div')
+            childDescription.innerHTML = description;
+
+            const childDone = document.createElement('button')
+            childDone.innerHTML = "Mark as done";
+            childDone.setAttribute("onclick",`markAsDone(${id})`);
+
+            child.appendChild(childTitle)
+            child.appendChild(childDescription)
+            child.appendChild(childDone)
+            child.setAttribute("id", id);
+
+            return child
+        }
+
+        function addTodo(){
+            const title = document.getElementById("title").value;
+            const description = document.getElementById("description").value;
+            const container = document.getElementById("container");
+        
+            container.appendChild(createChild(title,description,globalId++))
+        }
+
+        function GetTodos(todos) {
+            const container = document.getElementById("container");
+            for (let i = 0; i < todos.length;i++){
+                const child = createChild(todos[i].title,todos[i].description,todos[i].id)
+                container.appendChild(child)
+            }
+        }
+
+        GetTodos(todos)
+    </script>
+</body>
+</head>
